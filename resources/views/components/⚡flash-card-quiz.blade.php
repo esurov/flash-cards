@@ -170,7 +170,7 @@ new class extends Component {
 
         @if ($card)
             {{-- Flash Card --}}
-            <div class="perspective mb-6 h-64" x-data="{ flipped: @entangle('isFlipped') }">
+            <div class="perspective mb-6 h-44" x-data="{ flipped: @entangle('isFlipped') }">
                 <div
                     class="card-inner relative h-full w-full transition-transform duration-600"
                     :class="flipped ? 'rotate-y-180' : ''"
@@ -191,7 +191,10 @@ new class extends Component {
                             {{ $card->english }}
                         </span>
                         @if ($answer && ! $isCorrect)
-                            <span class="mt-3 text-sm text-red-400">Your answer: {{ $answer }}</span>
+                            <span class="mt-2 text-sm text-red-400">Your answer: {{ $answer }}</span>
+                        @endif
+                        @if ($card->example_sentence)
+                            <span class="mt-2 text-xs italic text-gray-500">&ldquo;{{ $card->example_sentence }}&rdquo;</span>
                         @endif
                     </div>
                 </div>
@@ -200,12 +203,12 @@ new class extends Component {
             {{-- Input & Actions (fixed height to prevent layout shift) --}}
             <div class="h-28">
                 @if (! $isFlipped)
-                    <form wire:submit="checkAnswer" class="mb-4 flex gap-3">
+                    <form wire:submit="checkAnswer" class="flex gap-3">
                         <input
                             type="text"
                             wire:model="answer"
                             placeholder="Type English translation..."
-                            autofocus
+                            x-init="$el.focus()"
                             class="flex-1 rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-800 shadow-sm placeholder:text-gray-400 focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 focus:outline-none"
                         />
                         <button
@@ -214,17 +217,18 @@ new class extends Component {
                         >
                             Check
                         </button>
+                        <button
+                            type="button"
+                            wire:click="showAnswer"
+                            class="rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-medium text-gray-600 shadow-sm transition hover:bg-gray-50 focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:outline-none"
+                        >
+                            Show Answer
+                        </button>
                     </form>
-                    <button
-                        wire:click="showAnswer"
-                        class="w-full rounded-xl border border-gray-200 bg-white py-3 text-sm font-medium text-gray-600 shadow-sm transition hover:bg-gray-50 focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:outline-none"
-                    >
-                        Show Answer
-                    </button>
                 @else
                     <button
                         wire:click="nextCard"
-                        autofocus
+                        x-init="$el.focus()"
                         class="w-full rounded-xl bg-indigo-600 py-3 font-medium text-white shadow-sm transition hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:outline-none"
                     >
                         Next Card

@@ -9,6 +9,7 @@ class FlashCard extends Model
     protected $fillable = [
         'german',
         'english',
+        'example_sentence',
         'category',
         'level',
     ];
