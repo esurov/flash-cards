@@ -176,11 +176,15 @@ new class extends Component {
                     :class="flipped ? 'rotate-y-180' : ''"
                 >
                     {{-- Front --}}
-                    <div class="card-face absolute inset-0 flex flex-col items-center justify-center rounded-2xl border border-gray-100 bg-white p-8 shadow-lg backface-hidden">
+                    <div
+                        wire:click="showAnswer"
+                        class="card-face absolute inset-0 flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-gray-100 bg-white p-8 shadow-lg backface-hidden"
+                    >
                         <span class="mb-2 inline-block rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-600">
                             {{ $card->level }} &middot; {{ $card->category }}
                         </span>
                         <span class="text-center text-3xl font-bold text-gray-800">{{ $card->german }}</span>
+                        <span class="mt-3 text-xs text-gray-400">Tap to reveal</span>
                     </div>
 
                     {{-- Back --}}
@@ -216,13 +220,6 @@ new class extends Component {
                             class="rounded-xl bg-indigo-600 px-5 py-3 font-medium text-white shadow-sm transition hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:outline-none"
                         >
                             Check
-                        </button>
-                        <button
-                            type="button"
-                            wire:click="showAnswer"
-                            class="rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-medium text-gray-600 shadow-sm transition hover:bg-gray-50 focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:outline-none"
-                        >
-                            Show Answer
                         </button>
                     </form>
                 @else
